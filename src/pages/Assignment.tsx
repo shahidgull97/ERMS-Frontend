@@ -37,17 +37,17 @@ const Assignments: React.FC = () => {
     }
   };
 
-  const handleUpdateAssignment = async (id: string, allocation: number) => {
-    try {
-      await assignmentService.update(id, { allocationPercentage: allocation });
-      toast.success("Assignment updated successfully");
-      fetchAssignments();
-    } catch (error: any) {
-      toast.error(
-        error.response?.data?.message || "Failed to update assignment"
-      );
-    }
-  };
+  //   const handleUpdateAssignment = async (id: string, allocation: number) => {
+  //     try {
+  //       await assignmentService.update(id, { allocationPercentage: allocation });
+  //       toast.success("Assignment updated successfully");
+  //       fetchAssignments();
+  //     } catch (error: any) {
+  //       toast.error(
+  //         error.response?.data?.message || "Failed to update assignment"
+  //       );
+  //     }
+  //   };
 
   const handleDeleteAssignment = async (id: string) => {
     if (!window.confirm("Are you sure you want to delete this assignment?"))

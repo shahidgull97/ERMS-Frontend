@@ -278,7 +278,7 @@ const Dashboard: React.FC = () => {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {skillsData.map((entry, index) => (
+                {skillsData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}

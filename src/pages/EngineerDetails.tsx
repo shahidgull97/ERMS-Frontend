@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { engineerService } from "../services/engineerService";
 import type { User, Assignment, Project } from "../types";
@@ -14,7 +14,7 @@ import {
 
 const EngineerDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+
   const [engineer, setEngineer] = useState<User | null>(null);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -139,7 +139,7 @@ const EngineerDetails: React.FC = () => {
                 fill="#8884d8"
                 dataKey="value"
               >
-                {capacityData.map((entry, index) => (
+                {capacityData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill={COLORS[index % COLORS.length]}

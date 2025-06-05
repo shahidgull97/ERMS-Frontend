@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { projectService } from "../services/projectService";
 import { assignmentService } from "../services/assignmentService";
@@ -10,7 +10,7 @@ import AssignEngineerModal from "../components/AssignEngineerModal";
 
 const ProjectDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
+
   const { user } = useAuth();
   const [project, setProject] = useState<Project | null>(null);
   const [assignments, setAssignments] = useState<Assignment[]>([]);
