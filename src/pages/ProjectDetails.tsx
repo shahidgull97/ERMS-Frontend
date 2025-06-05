@@ -68,6 +68,9 @@ const ProjectDetails: React.FC = () => {
     role: string
   ) => {
     try {
+      await projectService.update(id!, { engineerId: engineerId });
+      console.log("Assigning engineer with ID:", engineerId);
+
       await assignmentService.create({
         engineerId,
         projectId: id,

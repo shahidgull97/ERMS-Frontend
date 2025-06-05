@@ -1,5 +1,6 @@
 export interface User {
   _id: string;
+  id: string;
   email: string;
   name: string;
   role: "manager" | "engineer";
@@ -19,6 +20,7 @@ export interface Project {
   teamSize: number;
   status: "planning" | "active" | "completed";
   managerId: User | string;
+  engineerId: string;
   createdAt: string;
   updatedAt: string;
 }

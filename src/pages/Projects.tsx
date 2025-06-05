@@ -13,14 +13,30 @@ const Projects: React.FC = () => {
 
   useEffect(() => {
     fetchProjects();
-  }, []);
+  }, [loading]);
 
   const fetchProjects = async () => {
     try {
-      const data = await projectService.getAll();
-      setProjects(data);
-      setLoading(false);
+      if (user?.role == "manager") {
+        const data = await projectService.getAll();
+        setProjects(data);
+        setLoading(false);
+      } else {
+        console.log("Fetching user projects for user:", user?.id);
+        const data = await projectService.getAllUserProjects(user?.id || "");
+        // console.log("the project data 1", data);
+        if (data.length == 0 || data.message) {
+          toast.success("No projects found for this user");
+        } else {
+          //   console.log("the project data", data);
+
+          setProjects(data);
+          setLoading(false);
+        }
+      }
     } catch (error) {
+      console.log(error);
+
       toast.error("Failed to fetch projects");
       setLoading(false);
     }

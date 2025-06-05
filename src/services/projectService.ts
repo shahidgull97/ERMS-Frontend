@@ -3,7 +3,15 @@ import type { Project } from "../types";
 
 export const projectService = {
   getAll: async () => {
-    const response = await api.get("/projects");
+    const response = await api.get(`/projects`);
+    return response.data;
+  },
+  getAllUserProjects: async (id: string) => {
+    console.log("the user id", id);
+
+    const response = await api.get(`/projects/user/${id}`);
+    console.log("the response data", response.data);
+
     return response.data;
   },
 
@@ -13,6 +21,8 @@ export const projectService = {
   },
 
   create: async (project: Partial<Project>) => {
+    console.log("Creating project with data:", project);
+
     const response = await api.post("/projects", project);
     return response.data;
   },
