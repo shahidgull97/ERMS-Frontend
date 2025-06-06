@@ -31,12 +31,16 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [loading]);
 
   const fetchDashboardData = async () => {
     try {
+      console.log("Fetching dashboard data for user:", user?._id);
+
       const [projects, engineers, capacityReport] = await Promise.all([
-        projectService.getAll(),
+        user?.role === "manager"
+          ? projectService.getAll()
+          : projectService.getAllUserProjects(user?.id || ""),
         engineerService.getAll(),
         user?.role === "manager"
           ? engineerService.getCapacityReport()
@@ -73,11 +77,25 @@ const Dashboard: React.FC = () => {
 
       // Prepare skills distribution data
       const skillsCount: Record<string, number> = {};
-      engineers.forEach((eng: any) => {
-        eng.skills?.forEach((skill: string) => {
-          skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+      if (user?.role == "manager") {
+        engineers.forEach((eng: any) => {
+          if (eng.skills) {
+            eng.skills.forEach((skill: string) => {
+              skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+            });
+          }
         });
-      });
+      } else {
+        //   engineers.forEach((eng: any) => {
+        console.log(user);
+
+        if (user?.skills) {
+          user.skills.forEach((skill: string) => {
+            skillsCount[skill] = (skillsCount[skill] || 0) + 1;
+          });
+        }
+      }
+      //   });
 
       const skillsChartData = Object.entries(skillsCount).map(
         ([skill, count]) => ({
@@ -245,10 +263,15 @@ const Dashboard: React.FC = () => {
               <div className="ml-5 w-0 flex-1">
                 <dl>
                   <dt className="text-sm font-medium text-gray-500 truncate">
-                    Avg Available Capacity
+                    {user?.role === "manager"
+                      ? "Avg Available Capacity"
+                      : "Your Available Capacity"}
                   </dt>
                   <dd className="text-lg font-medium text-gray-900">
-                    {stats.availableCapacity.toFixed(1)}%
+                    {user?.role === "manager"
+                      ? stats.availableCapacity.toFixed(1)
+                      : user?.currentCapacity}
+                    %
                   </dd>
                 </dl>
               </div>

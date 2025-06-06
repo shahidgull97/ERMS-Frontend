@@ -25,8 +25,9 @@ const Projects: React.FC = () => {
         console.log("Fetching user projects for user:", user?.id);
         const data = await projectService.getAllUserProjects(user?.id || "");
         // console.log("the project data 1", data);
-        if (data.length == 0 || data.message) {
+        if (data.length == 0) {
           toast.success("No projects found for this user");
+          setLoading(false);
         } else {
           //   console.log("the project data", data);
 
